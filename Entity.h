@@ -18,8 +18,13 @@ public:
 
     // Onderstaande functies niet aanpassen!
     void setSprite(const std::string &img_path);
+
     void render(sf::RenderWindow *painter);
     ~Entity() = default;
+
+    const Position &getPosition() const;
+
+    void setPosition(const Position &position);
 
 private:
     Position position;
@@ -29,8 +34,13 @@ private:
 
 
 class Player : public Entity {
+    int AttackPower;
 public:
     void update(sf::Event* event) override;
+
+    void setAttackPower(int attackPower);
+
+    int getAttackPower() const;
 };
 
 class Weapon : public Entity {};
@@ -40,5 +50,7 @@ class Wall : public Entity {};
 class Floor : public Entity {};
 
 class Enemy : public Entity {};
+
+
 
 #endif //ENTITY_H

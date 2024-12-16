@@ -9,6 +9,11 @@
 
 class Room {
 public:
+
+    const std::vector<Entity *> &getEntities() const;
+
+    void addEntity(Entity* newentity);
+
     // Deze functie niet aanpassen!
     void render(sf::RenderWindow* window) const;
 

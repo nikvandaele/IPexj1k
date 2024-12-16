@@ -25,6 +25,14 @@ void Entity::update(sf::Event* event) {
 
 }
 
+const Position &Entity::getPosition() const {
+    return position;
+}
+
+void Entity::setPosition(const Position &position) {
+    Entity::position = position;
+}
+
 void Player::update(sf::Event* event) {
     switch (event->key.code) {
         case sf::Keyboard::Left:
@@ -41,4 +49,12 @@ void Player::update(sf::Event* event) {
                 break;
         default: break;
     }
+}
+
+void Player::setAttackPower(int attackPower) {
+    AttackPower = attackPower;
+}
+
+int Player::getAttackPower() const {
+    return AttackPower;
 }

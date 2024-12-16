@@ -3,6 +3,7 @@
 //
 
 #include "Room.h"
+using namespace std;
 
 void Room::render(sf::RenderWindow* window) const {
     Player* player = nullptr;
@@ -20,4 +21,12 @@ void Room::update(sf::Event* event) {
     for (Entity* entity : entities) {
         entity->update(event);
     }
+}
+
+const std::vector<Entity *> &Room::getEntities() const {
+    return entities;
+}
+
+void Room::addEntity(Entity* newentity) {
+    entities.push_back(newentity);
 }
