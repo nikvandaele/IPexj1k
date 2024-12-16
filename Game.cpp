@@ -40,25 +40,33 @@ void Game::loadMap(const std::string &filename) {
     ifstream file{filename};
     char token;
     int x = 0;
+    int y = 0;
+    bool notfirsttime = false;
     while(file.get(token)){
-        if (x%700 == 0){
-            rooms.push_back(roombuilder);
-            roombuilder = new Room;
+        if (token == '\n' and notfirsttime) {
+            x = 0;
+            y += 100;
         }
-        int y = 0;
-        while (y != 700){
-            Entity* newEp = new Entity;
+        if (x%700 == 0 and y%700 == 0){
+            if (notfirsttime) {
+                rooms.push_back(roombuilder);
+            }
+            roombuilder = new Room;
+            notfirsttime = true;
+        }
+        if (token != '\n') {
+            Entity *newEp = new Entity;
             Position newEpos;
             newEpos.x = x;
             newEpos.y = y;
             newEp->setPosition(newEpos);
             newEp->setSprite("resources/wall.png");
             roombuilder->addEntity(newEp);
-            y += 100;
+            x += 100;
         }
-        x += 100;
+
     }
-    currentRoom = rooms[1];
+    currentRoom = rooms[2];
     currentRoom->render(window);
 }
 
