@@ -3,7 +3,6 @@ project(project)
 
 
 # Stel het pad naar SFML in
-set(SFML_DIR "/opt/homebrew/Cellar/sfml/2.6.2/lib/cmake/SFML")
 
 
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system)
