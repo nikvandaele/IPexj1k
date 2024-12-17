@@ -4,6 +4,7 @@
 
 #include "Game.h"
 #include <fstream>
+#include <iostream>
 using namespace std;
 
 Game::Game(sf::RenderWindow* window) {
@@ -35,41 +36,70 @@ void Game::update() {
 }
 
 void Game::loadMap(const std::string &filename) {
-    Room* roombuilder;
-    vector<Room*> rooms;
     ifstream file{filename};
     char token;
     int x = 0;
     int y = 0;
-    bool notfirsttime = false;
+    int roomx = 0;
+    int roomy = 0;
+    int numberofrooms = 0;
     while(file.get(token)){
-        if (token == '\n' and notfirsttime) {
+        if (token == '\n') {
             x = 0;
             y += 100;
-        }
-        if (x%700 == 0 and y%700 == 0){
-            if (notfirsttime) {
-                rooms.push_back(roombuilder);
-            }
-            roombuilder = new Room;
-            notfirsttime = true;
-        }
-        if (token != '\n') {
+        }else{
+            roomx = x/700;
+            roomy = y/700;
             Entity *newEp = new Entity;
             Position newEpos;
             newEpos.x = x;
             newEpos.y = y;
             newEp->setPosition(newEpos);
-            newEp->setSprite("resources/wall.png");
-            roombuilder->addEntity(newEp);
+            if (token == '#') {
+                newEp->setSprite("resources/wall.png");
+            }else if (token == '_'){
+                newEp->setSprite("resources/floor.png");
+            }else if (token == '%'){
+                newEp->setSprite("resources/enemy.png");
+            }else if (token == '!'){
+                newEp->setSprite("resources/weapon.png");
+            }else if (token == '@'){
+                newEp->setSprite("resources/player.png");
+            }
+            if (roomExsistence(roomx, roomy) == false){
+                Room* newR = new Room;
+                rooms.push_back(newR);
+                addRoom(newR, roomy);
+                numberofrooms++;
+            }
+            roomMatrix[roomy][roomx]->addEntity(newEp);
             x += 100;
         }
-
+        cout << 'x' << x << endl;
+        cout << 'y' << y << endl;
     }
-    currentRoom = rooms[2];
+    currentRoom = roomMatrix[1][0];
     currentRoom->render(window);
 }
 
 void Game::setCurrentRoom() {
 
+}
+
+bool Game::roomExsistence(int x, int y) const {
+    return roomMatrix.size() > y && roomMatrix[y].size() > x;
+}
+
+bool Game::addRoom(Room *newroom, int y) {
+    if (roomMatrix.size() == y+1){
+        roomMatrix[y].push_back(newroom);
+        return true;
+    }
+    if (roomMatrix.size() == y){
+        vector<Room*> newRow;
+        roomMatrix.push_back(newRow);
+        roomMatrix[y].push_back(newroom);
+        return true;
+    }
+    return false;
 }

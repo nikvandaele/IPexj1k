@@ -6,6 +6,7 @@
 #define GAME_H
 
 #include "Room.h"
+using namespace std;
 
 class Game {
 public:
@@ -19,10 +20,15 @@ public:
     void loadMap(const std::string& filename);
     void setCurrentRoom();
 
+    bool roomExsistence (int x, int y) const;
+
+    bool addRoom (Room* newroom, int y);
+
 
 private:
     sf::RenderWindow* window;
     std::vector<Room*> rooms;
+    vector<vector<Room *>> roomMatrix;
     Room* currentRoom = nullptr;
 };
 
