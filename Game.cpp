@@ -4,7 +4,6 @@
 
 #include "Game.h"
 #include <fstream>
-#include <iostream>
 using namespace std;
 
 Game::Game(sf::RenderWindow* window) {
@@ -75,8 +74,6 @@ void Game::loadMap(const std::string &filename) {
             roomMatrix[roomy][roomx]->addEntity(newEp);
             x += 100;
         }
-        cout << 'x' << x << endl;
-        cout << 'y' << y << endl;
     }
     currentRoom = roomMatrix[1][0];
     currentRoom->render(window);
