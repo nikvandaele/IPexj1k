@@ -6,7 +6,7 @@ project(project)
 
 
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 set(SOURCE_FILES
     main.cpp
     Game.cpp

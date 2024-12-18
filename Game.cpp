@@ -49,38 +49,76 @@ void Game::loadMap(const std::string &filename) {
         }else{
             roomx = x/700;
             roomy = y/700;
-            Entity *newEp = new Entity;
             Position newEpos;
             newEpos.x = x;
             newEpos.y = y;
-            newEp->setPosition(newEpos);
-            if (token == '#') {
-                newEp->setSprite("resources/wall.png");
-            }else if (token == '_'){
-                newEp->setSprite("resources/floor.png");
-            }else if (token == '%'){
-                newEp->setSprite("resources/enemy.png");
-            }else if (token == '!'){
-                newEp->setSprite("resources/weapon.png");
-            }else if (token == '@'){
-                newEp->setSprite("resources/player.png");
-            }
             if (roomExsistence(roomx, roomy) == false){
                 Room* newR = new Room;
                 rooms.push_back(newR);
                 addRoom(newR, roomy);
                 numberofrooms++;
             }
-            roomMatrix[roomy][roomx]->addEntity(newEp);
+            if (token == '#') {
+                Wall* newEp = new Wall;
+                newEp->setPosition(newEpos);
+                newEp->setSprite("resources/wall.png");
+                roomMatrix[roomy][roomx]->addEntity(newEp);
+            }else if (token == '_'){
+                Floor* newEp = new Floor;
+                newEp->setPosition(newEpos);
+                newEp->setSprite("resources/floor.png");
+                roomMatrix[roomy][roomx]->addEntity(newEp);
+            }else if (token == '%'){
+                //add tile to go under enemy
+                Floor* tileunderplayer = new Floor;
+                tileunderplayer->setPosition(newEpos);
+                tileunderplayer->setSprite("resources/floor.png");
+                roomMatrix[roomy][roomx]->addEntity(tileunderplayer);
+
+                //add weapon
+                Enemy* newEp = new Enemy;
+                newEp->setPosition(newEpos);
+                newEp->setSprite("resources/enemy.png");
+                roomMatrix[roomy][roomx]->addEntity(newEp);
+            }else if (token == '!'){
+                //add tile to go under enemy
+                Floor* tileunderplayer = new Floor;
+                tileunderplayer->setPosition(newEpos);
+                tileunderplayer->setSprite("resources/floor.png");
+                roomMatrix[roomy][roomx]->addEntity(tileunderplayer);
+
+                //add weapon
+                Weapon* newEp = new Weapon;
+                newEp->setPosition(newEpos);
+                newEp->setSprite("resources/weapon.png");
+                roomMatrix[roomy][roomx]->addEntity(newEp);
+            }else if (token == '@'){
+                //add tile to go under playe
+                Floor* tileunderplayer = new Floor;
+                tileunderplayer->setPosition(newEpos);
+                tileunderplayer->setSprite("resources/floor.png");
+                roomMatrix[roomy][roomx]->addEntity(tileunderplayer);
+
+                //add player
+                Player* newEp = new Player;
+                newEp->setPosition(newEpos);
+                newEp->setSprite("resources/player.png");
+                currentRoom = roomMatrix[roomy][roomx];
+                currentRoom->setPlayer(newEp);
+                roomMatrix[roomy][roomx]->addEntity(newEp);
+            }
             x += 100;
         }
     }
-    currentRoom = roomMatrix[1][0];
     currentRoom->render(window);
 }
 
 void Game::setCurrentRoom() {
-
+    Player* player = currentRoom->getPlayer();
+    Position position = player->getPosition();
+    int x = position.x/700;
+    int y = position.y/700;
+    currentRoom = roomMatrix[y][x];
 }
 
 bool Game::roomExsistence(int x, int y) const {
@@ -100,3 +138,7 @@ bool Game::addRoom(Room *newroom, int y) {
     }
     return false;
 }
+
+Game::Game() {}
+
+

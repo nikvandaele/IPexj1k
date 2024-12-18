@@ -10,6 +10,8 @@
 class Room {
 public:
 
+    Room();
+
     const std::vector<Entity *> &getEntities() const;
 
     void addEntity(Entity* newentity);
@@ -20,8 +22,13 @@ public:
     // Deze functie zal je zelf verder moeten aanvullen
     void update(sf::Event* event);
 
+    Player *getPlayer() const;
+
+    void setPlayer(Player *player);
+
 private:
     std::vector<Entity*> entities;
+    Player* player;
 };
 
 

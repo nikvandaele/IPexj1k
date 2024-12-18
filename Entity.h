@@ -14,7 +14,10 @@ struct Position {
 
 class Entity {
 public:
-    virtual void update(sf::Event* event);
+
+    Entity();
+
+    virtual void update(sf::Event* event, Position &playerpos);
 
     // Onderstaande functies niet aanpassen!
     void setSprite(const std::string &img_path);
@@ -22,9 +25,13 @@ public:
     void render(sf::RenderWindow *painter);
     ~Entity() = default;
 
-    const Position &getPosition() const;
+    const Position getPosition() const;
 
     void setPosition(const Position &position);
+
+    bool standsOn(Entity* betredene) const;
+
+    virtual void interacts(Entity* betredene, const Position &playerpos);
 
 private:
     Position position;
@@ -36,16 +43,20 @@ private:
 class Player : public Entity {
     int AttackPower;
 public:
-    void update(sf::Event* event) override;
+    void update(sf::Event* event, Position &playerpos) override;
 
     void setAttackPower(int attackPower);
 
     int getAttackPower() const;
+
 };
 
 class Weapon : public Entity {};
 
-class Wall : public Entity {};
+class Wall : public Entity {
+public:
+    virtual void interacts(Entity* betredene, const Position &playerpos);
+};
 
 class Floor : public Entity {};
 

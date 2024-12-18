@@ -21,11 +21,11 @@ void Entity::render(sf::RenderWindow *window) {
     window->draw(sprite);
 }
 
-void Entity::update(sf::Event* event) {
+void Entity::update(sf::Event* event, Position &playerpos) {
 
 }
 
-const Position &Entity::getPosition() const {
+const Position Entity::getPosition() const {
     return position;
 }
 
@@ -33,23 +33,40 @@ void Entity::setPosition(const Position &position) {
     Entity::position = position;
 }
 
-void Player::update(sf::Event* event) {
+Entity::Entity() {
+    setPosition(Position());
+}
+
+void Player::update(sf::Event* event, Position &playerpos) {
+    Position position = getPosition();
+    playerpos = getPosition();
     switch (event->key.code) {
         case sf::Keyboard::Left:
             // Move to the left
+            position.x -= 100;
                 break;
         case sf::Keyboard::Right:
             // Move to the right
+            position.x += 100;
                 break;
         case sf::Keyboard::Up:
             // Move up
+            position.y -= 100;
                 break;
         case sf::Keyboard::Down:
             // Move down
+            position.y += 100;
                 break;
         default: break;
     }
+    setPosition(position);
 }
+
+bool Entity::standsOn(Entity *betredene) const {
+    return position.x == betredene->position.x && position.y == betredene->position.y;
+}
+
+void Entity::interacts(Entity *betredene, const Position &playerpos) {}
 
 void Player::setAttackPower(int attackPower) {
     AttackPower = attackPower;
@@ -57,4 +74,10 @@ void Player::setAttackPower(int attackPower) {
 
 int Player::getAttackPower() const {
     return AttackPower;
+}
+
+void Wall::interacts(Entity *betredene, const Position &playerpos) {
+    if (standsOn(betredene) && this != betredene){
+        betredene->setPosition(playerpos);
+    }
 }

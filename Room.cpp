@@ -18,8 +18,12 @@ void Room::render(sf::RenderWindow* window) const {
 }
 
 void Room::update(sf::Event* event) {
+    Position playerpos;
     for (Entity* entity : entities) {
-        entity->update(event);
+        entity->update(event, playerpos);
+        for (Entity* entity2 : entities){
+            entity2->interacts(entity, playerpos);
+        }
     }
 }
 
@@ -29,4 +33,14 @@ const std::vector<Entity *> &Room::getEntities() const {
 
 void Room::addEntity(Entity* newentity) {
     entities.push_back(newentity);
+}
+
+Room::Room() {}
+
+Player *Room::getPlayer() const {
+    return player;
+}
+
+void Room::setPlayer(Player *player) {
+    Room::player = player;
 }

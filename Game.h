@@ -10,6 +10,9 @@ using namespace std;
 
 class Game {
 public:
+
+    Game();
+
     // Deze functies niet aanpassen!
     Game(sf::RenderWindow* window);
     void update();
