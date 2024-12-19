@@ -68,6 +68,16 @@ public:
     virtual Entity* interacts(Entity* interactor, const Position &playerpos, int &interactreturn);
 };
 
+class Portal : public Entity {
+private:
+    Position target;
+public:
+    const Position &getTarget() const;
+
+    void setTarget(const Position &target);
+
+    virtual Entity* interacts(Entity* interactor, const Position &playerpos, int &interactreturn);
+};
 
 
 #endif //ENTITY_H

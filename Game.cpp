@@ -59,11 +59,28 @@ void Game::loadMap(const std::string &filename) {
                 numberofrooms++;
             }
             if (token == '#') {
+                //add wall
                 Wall* newEp = new Wall;
                 newEp->setPosition(newEpos);
                 newEp->setSprite("resources/wall.png");
                 roomMatrix[roomy][roomx]->addEntity(newEp);
+            }else if (token == '"'){
+                //add void wall
+                Wall* newEp = new Wall;
+                newEp->setPosition(newEpos);
+                roomMatrix[roomy][roomx]->addEntity(newEp);
+            }else if (token == '-'){
+                //add floor be displayed
+                Floor* tileunderplayer = new Floor;
+                tileunderplayer->setPosition(newEpos);
+                tileunderplayer->setSprite("resources/floor.png");
+                roomMatrix[roomy][roomx]->addEntity(tileunderplayer);
+                //add invis wall
+                Wall* newEp = new Wall;
+                newEp->setPosition(newEpos);
+                roomMatrix[roomy][roomx]->addEntity(newEp);
             }else if (token == '_'){
+                //add floor
                 Floor* newEp = new Floor;
                 newEp->setPosition(newEpos);
                 newEp->setSprite("resources/floor.png");
@@ -105,6 +122,15 @@ void Game::loadMap(const std::string &filename) {
                 newEp->setSprite("resources/player.png");
                 currentRoom = roomMatrix[roomy][roomx];
                 currentRoom->setPlayer(newEp);
+                roomMatrix[roomy][roomx]->addEntity(newEp);
+            }else if (token == 'o'){
+                Portal* newEp = new Portal;
+                newEp->setPosition(newEpos);
+                newEp->setSprite("resources/portal.png");
+                Position target;
+                target.x = 8000;
+                target.y = 800;
+                newEp->setTarget(target);
                 roomMatrix[roomy][roomx]->addEntity(newEp);
             }
             x += 100;

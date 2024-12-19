@@ -100,3 +100,18 @@ Entity* Enemy::interacts(Entity *interactor, const Position &playerpos, int &int
     }
     return nullptr;
 }
+
+const Position &Portal::getTarget() const {
+    return target;
+}
+
+void Portal::setTarget(const Position &target) {
+    Portal::target = target;
+}
+
+Entity *Portal::interacts(Entity *interactor, const Position &playerpos, int &interactreturn) {
+    if (standsOn(interactor) && this != interactor){
+        interactor->setPosition(target);
+    }
+    return nullptr;
+}
