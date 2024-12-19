@@ -16,6 +16,8 @@ public:
 
     void addEntity(Entity* newentity);
 
+    void removeEntity(Entity* deathbound);
+
     // Deze functie niet aanpassen!
     void render(sf::RenderWindow* window) const;
 

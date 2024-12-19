@@ -35,6 +35,14 @@ void Room::addEntity(Entity* newentity) {
     entities.push_back(newentity);
 }
 
+void Room::removeEntity(Entity *deathbound) {
+    for (int i = 0; i < entities.size(); i++){
+        if (entities[i] == player){
+            entities.erase(entities.begin()+i);
+        }
+    }
+}
+
 Room::Room() {}
 
 Player *Room::getPlayer() const {

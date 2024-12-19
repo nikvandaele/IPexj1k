@@ -114,11 +114,17 @@ void Game::loadMap(const std::string &filename) {
 }
 
 void Game::setCurrentRoom() {
+    Room* changecheck = currentRoom;
     Player* player = currentRoom->getPlayer();
     Position position = player->getPosition();
     int x = position.x/700;
     int y = position.y/700;
     currentRoom = roomMatrix[y][x];
+    if (changecheck != currentRoom){
+        currentRoom->addEntity(player);
+        changecheck->removeEntity(player);
+        currentRoom->setPlayer(player);
+    }
 }
 
 bool Game::roomExsistence(int x, int y) const {
