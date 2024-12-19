@@ -4,6 +4,8 @@
 
 #include "Game.h"
 #include <fstream>
+#include <chrono>
+#include <thread>
 using namespace std;
 
 Game::Game(sf::RenderWindow* window) {
@@ -31,7 +33,6 @@ void Game::update() {
             }
         }
     }
-
 }
 
 void Game::loadMap(const std::string &filename) {
