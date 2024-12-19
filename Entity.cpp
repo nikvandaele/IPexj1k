@@ -4,6 +4,7 @@
 
 #include "Entity.h"
 #include <iostream>
+using namespace std;
 
 void Entity::setSprite(const std::string& img_path) {
     if (!this->texture.loadFromFile(img_path)) {
@@ -66,7 +67,7 @@ bool Entity::standsOn(Entity *betredene) const {
     return position.x == betredene->position.x && position.y == betredene->position.y;
 }
 
-void Entity::interacts(Entity *betredene, const Position &playerpos) {}
+Entity* Entity::interacts(Entity *interactor, const Position &playerpos, int &interactreturn) {return nullptr;}
 
 void Player::setAttackPower(int attackPower) {
     AttackPower = attackPower;
@@ -76,8 +77,26 @@ int Player::getAttackPower() const {
     return AttackPower;
 }
 
-void Wall::interacts(Entity *betredene, const Position &playerpos) {
-    if (standsOn(betredene) && this != betredene){
-        betredene->setPosition(playerpos);
+Entity* Wall::interacts(Entity *interactor, const Position &playerpos, int &interactreturn) {
+    if (standsOn(interactor) && this != interactor){
+        interactor->setPosition(playerpos);
     }
+    return nullptr;
+}
+
+Entity* Weapon::interacts(Entity *interactor, const Position &playerpos, int &interactreturn) {
+    if (standsOn(interactor) && this != interactor){
+        return this;
+    }
+    return nullptr;
+}
+
+Entity* Enemy::interacts(Entity *interactor, const Position &playerpos, int &interactreturn) {
+    if (standsOn(interactor) && this != interactor && interactreturn == 1){
+        return this;
+    }
+    if (standsOn(interactor) && this != interactor){
+        interactor->setPosition(playerpos);
+    }
+    return nullptr;
 }

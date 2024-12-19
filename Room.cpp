@@ -21,8 +21,13 @@ void Room::update(sf::Event* event) {
     Position playerpos;
     for (Entity* entity : entities) {
         entity->update(event, playerpos);
-        for (Entity* entity2 : entities){
-            entity2->interacts(entity, playerpos);
+    }
+    for (Entity *entity2: entities) {
+        int interactio = player->getAttackPower();
+        Entity* to_delete = entity2->interacts(player, playerpos, interactio);
+        if (to_delete != nullptr && to_delete != player){
+            player->setAttackPower(1);
+            removeEntity(to_delete);
         }
     }
 }
@@ -37,7 +42,7 @@ void Room::addEntity(Entity* newentity) {
 
 void Room::removeEntity(Entity *deathbound) {
     for (int i = 0; i < entities.size(); i++){
-        if (entities[i] == player){
+        if (entities[i] == deathbound){
             entities.erase(entities.begin()+i);
         }
     }

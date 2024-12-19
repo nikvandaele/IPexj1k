@@ -31,7 +31,7 @@ public:
 
     bool standsOn(Entity* betredene) const;
 
-    virtual void interacts(Entity* betredene, const Position &playerpos);
+    virtual Entity* interacts(Entity* interactor, const Position &playerpos, int &interactreturn);
 
 private:
     Position position;
@@ -51,16 +51,22 @@ public:
 
 };
 
-class Weapon : public Entity {};
+class Weapon : public Entity {
+public:
+    virtual Entity* interacts(Entity* interactor, const Position &playerpos, int &interactreturn);
+};
 
 class Wall : public Entity {
 public:
-    virtual void interacts(Entity* betredene, const Position &playerpos);
+    virtual Entity* interacts(Entity* interactor, const Position &playerpos, int &interactreturn);
 };
 
 class Floor : public Entity {};
 
-class Enemy : public Entity {};
+class Enemy : public Entity {
+public:
+    virtual Entity* interacts(Entity* interactor, const Position &playerpos, int &interactreturn);
+};
 
 
 
