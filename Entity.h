@@ -64,8 +64,14 @@ public:
 class Floor : public Entity {};
 
 class Enemy : public Entity {
+private:
+    int health;
 public:
     virtual Entity* interacts(Entity* interactor, const Position &playerpos, int &interactreturn);
+
+    void setHealth(int health);
+
+    int getHealth() const;
 };
 
 class Portal : public Entity {

@@ -93,12 +93,23 @@ Entity* Weapon::interacts(Entity *interactor, const Position &playerpos, int &in
 
 Entity* Enemy::interacts(Entity *interactor, const Position &playerpos, int &interactreturn) {
     if (standsOn(interactor) && this != interactor && interactreturn == 1){
-        return this;
+        health--;
+        if (health <= 0){
+            return this;
+        }
     }
     if (standsOn(interactor) && this != interactor){
         interactor->setPosition(playerpos);
     }
     return nullptr;
+}
+
+void Enemy::setHealth(int health) {
+    Enemy::health = health;
+}
+
+int Enemy::getHealth() const {
+    return health;
 }
 
 const Position &Portal::getTarget() const {

@@ -92,13 +92,14 @@ void Game::loadMap(const std::string &filename) {
                 tileunderplayer->setSprite("resources/floor.png");
                 roomMatrix[roomy][roomx]->addEntity(tileunderplayer);
 
-                //add weapon
+                //add enemy
                 Enemy* newEp = new Enemy;
                 newEp->setPosition(newEpos);
+                newEp->setHealth(10);
                 newEp->setSprite("resources/enemy.png");
                 roomMatrix[roomy][roomx]->addEntity(newEp);
             }else if (token == '!'){
-                //add tile to go under enemy
+                //add tile to go under weapon
                 Floor* tileunderplayer = new Floor;
                 tileunderplayer->setPosition(newEpos);
                 tileunderplayer->setSprite("resources/floor.png");
